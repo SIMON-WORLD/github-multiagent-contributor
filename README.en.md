@@ -74,6 +74,22 @@ GitHub attributes Contributors from commits that reach the default branch with a
 
 In every case, Issues, Pull Requests, CI, and review records are the primary workflow artifacts; the Contributor view is a by-product of commit authorship and is not an acceptance criterion for this template.
 
+### Two prerequisites for agents to reliably become Contributors
+
+Whether a co-author trailer actually shows up in the Contributors list depends on two easily missed prerequisites:
+
+1. **The trailer email must map to a real, registered GitHub account.** GitHub only counts a `Co-Authored-By` address toward Contributors when it can match the email to a registered user or bot. `Claude <noreply@anthropic.com>` and `Codex <noreply@openai.com>` are each bound to their official identities and can be used directly; an arbitrary made-up email produces no Contributor at all—it just leaves an unattributed trailer. Use the agent's real identity email; never forge one.
+
+2. **Enable maintainers' email privacy before merging, so personal emails do not pollute `main`.** When a repository allows only Squash merges, or when GitHub's “Update branch (rebase)” is used, GitHub may generate a new commit using the maintainer's public profile email. If that is a personal address, it lands on `main` and will fail `scripts/check_commit_emails.py` on the next PR. Before merging, have each maintainer enable **Keep my email addresses private** and **Block command line pushes that expose my email** under GitHub `Settings → Emails`, so all commits use an `@users.noreply.github.com` address.
+
+Reproduction checklist (make both Claude and Codex Contributors in any repo):
+
+- [ ] Copy the 9 files listed under “Quick Start”;
+- [ ] Enable branch protection (require passing CI and at least one approval);
+- [ ] Turn on GitHub email privacy for every human maintainer;
+- [ ] Land one commit per agent on the default branch carrying its real identity trailer (`Co-Authored-By: Claude <noreply@anthropic.com>`, `Co-Authored-By: Codex <noreply@openai.com>`);
+- [ ] Run the full Issue → branch → PR → CI → Review → merge cycle.
+
 ## License
 
 This template is released under the [MIT License](LICENSE). You may copy, modify, and integrate it into your projects while retaining the license notice.
