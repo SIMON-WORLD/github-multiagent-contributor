@@ -74,6 +74,22 @@ GitHub Contributors 根据进入默认分支的提交作者归属计算。云端
 
 无论采用哪种归属方式，Issue、Pull Request、CI 和 Review 记录才是协作流程的核心产物；Contributor 图标只是提交作者归属的副产品，不作为本模板的验收标准。
 
+### 让 Agent 稳定成为 Contributor 的两条前提
+
+共同作者署名能否真正出现在 Contributors 列表，取决于两个容易被忽略的前提：
+
+1. **尾注邮箱必须能对应到一个真实注册的 GitHub 账号。** GitHub 只有在能把 `Co-Authored-By` 的邮箱匹配到某个已注册用户或 bot 时，才会把它计入 Contributors。`Claude <noreply@anthropic.com>` 与 `Codex <noreply@openai.com>` 均已绑定各自的官方身份，可直接使用；随意编写的邮箱不会产生任何 Contributor，只会留下一行无归属的尾注。请使用 Agent 的真实身份邮箱，不要伪造。
+
+2. **合并前先开启维护者的邮箱隐私，避免个人邮箱污染 `main`。** 当仓库只允许 Squash 合并，或使用 GitHub 的 “Update branch (rebase)” 时，GitHub 可能用维护者 GitHub 档案里的公开邮箱生成新提交。一旦这是个人邮箱，就会进入 `main` 并被 `scripts/check_commit_emails.py` 在后续 PR 中判红。合并前请每位维护者在 GitHub `Settings → Emails` 勾选 **Keep my email addresses private** 与 **Block command line pushes that expose my email**，使所有提交使用 `@users.noreply.github.com` 地址。
+
+复现清单(任意仓库让 Claude 与 Codex 都成为 Contributor)：
+
+- [ ] 复制“快速应用”列出的 9 个文件；
+- [ ] 开启分支保护(要求 CI 通过、至少 1 次批准)；
+- [ ] 所有真人维护者开启 GitHub 邮箱隐私；
+- [ ] 每个 Agent 各让一个带真实身份尾注的提交进入默认分支(`Co-Authored-By: Claude <noreply@anthropic.com>`、`Co-Authored-By: Codex <noreply@openai.com>`)；
+- [ ] 全程走 Issue → 分支 → PR → CI → Review → 合并。
+
 ## 许可证
 
 本模板采用 [MIT License](LICENSE)。你可以复制、修改和集成到自己的项目中，并应保留许可证声明。
