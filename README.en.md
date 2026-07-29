@@ -90,6 +90,10 @@ Reproduction checklist (make both Claude and Codex Contributors in any repo):
 - [ ] Land one commit per agent on the default branch carrying its real identity trailer (`Co-Authored-By: Claude <noreply@anthropic.com>`, `Co-Authored-By: Codex <noreply@openai.com>`);
 - [ ] Run the full Issue → branch → PR → CI → Review → merge cycle.
 
+## Optional scheduled Agent check-in
+
+To keep a daily continuity record for Codex, Claude, or other verified identities in a repository, copy [Scheduled Agent Check-in](docs/scheduled-agent-checkin.md) and set `AGENT_CHECKIN_ENABLED` to `true`. It appends only a transparent `activity/agent-checkins.csv` record and preserves configured `Co-Authored-By` trailers; the record is explicitly an automated check-in, not a claim of substantive code or research work that day. It is disabled by default. Before enabling it, confirm that Actions can write to the default branch and keep the commit-email gate enabled.
+
 ## License
 
 This template is released under the [MIT License](LICENSE). You may copy, modify, and integrate it into your projects while retaining the license notice.

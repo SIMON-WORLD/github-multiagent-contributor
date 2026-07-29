@@ -90,6 +90,10 @@ GitHub Contributors 根据进入默认分支的提交作者归属计算。云端
 - [ ] 每个 Agent 各让一个带真实身份尾注的提交进入默认分支(`Co-Authored-By: Claude <noreply@anthropic.com>`、`Co-Authored-By: Codex <noreply@openai.com>`)；
 - [ ] 全程走 Issue → 分支 → PR → CI → Review → 合并。
 
+## 可选的每日 Agent check-in
+
+如果希望在每个仓库中自动保留 Codex、Claude 等身份的连续性记录，可复制 [Scheduled Agent Check-in](docs/scheduled-agent-checkin.md) 工作流并将 `AGENT_CHECKIN_ENABLED` 设为 `true`。它只追加透明的 `activity/agent-checkins.csv` 记录，并在提交中保留配置的 `Co-Authored-By` 尾注；记录明确标注为自动 check-in，不等同于当天完成了实质性代码或研究工作。默认关闭。启用前请确认 Actions 能向默认分支写入，并保留提交邮箱门禁。
+
 ## 许可证
 
 本模板采用 [MIT License](LICENSE)。你可以复制、修改和集成到自己的项目中，并应保留许可证声明。
