@@ -76,6 +76,8 @@ jobs:
           printf '%s,%s,automated scheduled agent check-in (no substantive code change),"%s"\n' \
             "$today" "$now" "$author_names" >> "$log_file"
 
+          # Empty repository variables must not override the safe bot identity.
+          unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL GIT_COMMITTER_NAME GIT_COMMITTER_EMAIL
           git config user.name "${GIT_AUTHOR_NAME:-github-actions[bot]}"
           git config user.email "${GIT_AUTHOR_EMAIL:-41898282+github-actions[bot]@users.noreply.github.com}"
 
