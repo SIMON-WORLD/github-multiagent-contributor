@@ -62,33 +62,7 @@ jobs:
 
           for author in "${author_list[@]}"; do
             author="$(echo "$author" | sed 's/^ *//;s/ *$//')"
-            if ! printf '%s\n' "$author" | grep -Eq '^[A-Za-z0-9._-]+ <[^[:space:]<>]+@[^[:space:]<>]+>
-              echo "::error::Invalid agent identity format: $author"
-              exit 1
-            fi
-            printf 'Co-Authored-By: %s\n' "$author" >> "$trailer_file"
-            if [ -n "$author_names" ]; then
-              author_names="$author_names; "
-            fi
-            author_names="$author_names$author"
-          done
-
-          printf '%s,%s,automated scheduled agent check-in (no substantive code change),"%s"\n' \
-            "$today" "$now" "$author_names" >> "$log_file"
-
-          git config user.name "${GIT_AUTHOR_NAME:-github-actions[bot]}"
-          git config user.email "${GIT_AUTHOR_EMAIL:-41898282+github-actions[bot]@users.noreply.github.com}"
-
-          {
-            printf 'chore: scheduled agent check-in %s\n\n' "$today"
-            printf 'Automated attribution record; no substantive code change.\n\n'
-            cat "$trailer_file"
-          } > commit-message.txt
-
-          git add "$log_file"
-          git commit -F commit-message.txt
-          git push
-; then
+            if ! printf '%s\\n' "$author" | grep -Eq '^[A-Za-z0-9._-]+ <[^[:space:]<>]+@[^[:space:]<>]+>$'; then
               echo "::error::Invalid agent identity format: $author"
               exit 1
             fi
