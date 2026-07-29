@@ -62,7 +62,7 @@ jobs:
 
           for author in "${author_list[@]}"; do
             author="$(echo "$author" | sed 's/^ *//;s/ *$//')"
-            if ! printf '%s\\n' "$author" | grep -Eq '^[A-Za-z0-9._-]+ <[^[:space:]<>]+@[^[:space:]<>]+>$'; then
+            if ! printf '%s\n' "$author" | grep -Eq '^[A-Za-z0-9._-]+ <[^[:space:]<>]+@[^[:space:]<>]+>$'; then
               echo "::error::Invalid agent identity format: $author"
               exit 1
             fi
