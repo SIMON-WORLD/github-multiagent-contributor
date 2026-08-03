@@ -14,8 +14,8 @@
 | codex | Codex | `Codex <noreply@openai.com>` | 有免费额度 | ✅ 官方识别（本仓库已验证） | OpenAI 官方 no-reply 邮箱 |
 | claude | Claude | `Claude <noreply@anthropic.com>` | 有免费额度 | ✅ 官方识别（本仓库已验证） | Anthropic 官方 no-reply 邮箱 |
 | copilot | GitHub Copilot | `Copilot <noreply@github.com>` | ❌ 需 Copilot 付费计划 | ✅ 官方识别（待本仓库验证） | 免费加署名，但实际使用要订阅 |
-| chatgpt | ChatGPT | `ChatGPT <noreply@openai.com>` | ✅ 免费 | ✅ 官方识别（待本仓库验证） | 与 Codex 同域，GitHub 按名字区分 |
-| gemini | Gemini / Gemini Code Assist | `Gemini <noreply@google.com>` | ✅ 免费额度 | ✅ 官方识别（待本仓库验证） | Google 官方 no-reply 邮箱 |
+| chatgpt | ChatGPT | `ChatGPT <noreply@openai.com>` | ✅ 免费 | ✅ 官方识别（待本仓库验证） | 与 Codex 同域，需单独提交展示 |
+| gemini | Gemini / Gemini Code Assist | `Gemini <noreply@google.com>` | ✅ 免费额度 | ✅ 官方识别（本仓库已验证） | Google 官方 no-reply 邮箱 |
 | aider | Aider | `Aider <aider@aider.ch>` | ✅ 免费（开源） | ⚠️ 社区标准（待验证） | 开源 CLI，可配置自动加尾注 |
 | cline | Cline | `Cline <noreply@cline.bot>` | ✅ 免费额度 | ⚠️ 社区标准（待验证） | VS Code 开源扩展 |
 | cursor | Cursor | `Cursor <noreply@cursor.sh>` | ✅ 免费额度 | ⚠️ 社区标准（待验证） | 默认不加尾注，仅测试展示 |
@@ -26,6 +26,9 @@
   查看 Contributors 页面确认。
 - 付费工具（如 Copilot）也可以免费添加署名身份，本目录保留但标注清楚。
 - 邮箱统一使用官方 no-reply / 工具官方邮箱，避免暴露真实邮箱。
+- `chatgpt` 与 `codex` 共用 `noreply@openai.com`：同一提交里两者并存时，GitHub 在
+  squash 合并时会按邮箱去重（实测只保留 Codex）。想单独展示 ChatGPT，需要单独提交，
+  且该提交不要携带 Codex 尾注。
 
 ## 如何把身份加到一个提交
 
