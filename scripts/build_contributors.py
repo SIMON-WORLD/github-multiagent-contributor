@@ -220,6 +220,24 @@ BOT_ACCOUNTS: list[dict] = [
         "email": "40829082+release-drafter[bot]@users.noreply.github.com",
         "note": "Release Drafter 发布草稿 bot",
     },
+    {
+        "id": "pypi",
+        "name": "pypi[bot]",
+        "email": "253595658+pypi[bot]@users.noreply.github.com",
+        "note": "PyPI 官方 bot",
+    },
+    {
+        "id": "npm",
+        "name": "npm[bot]",
+        "email": "38296568+npm[bot]@users.noreply.github.com",
+        "note": "npm 官方 bot",
+    },
+    {
+        "id": "octokit",
+        "name": "octokit[bot]",
+        "email": "171388558+octokit[bot]@users.noreply.github.com",
+        "note": "GitHub 官方 Octokit bot",
+    },
 ]
 
 _NAME_EMAIL_RE = re.compile(r"^[A-Za-z0-9._\-\[\]]+ <[^<>\s]+@[^<>\s]+>$")
