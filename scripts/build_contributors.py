@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""Generate Co-Authored-By trailers from the free contributor catalog.
+"""Generate Co-Authored-By trailers from the verified contributor catalog.
 
-Includes GitHub-registered AI identities and real GitHub bot accounts.
+Only identities proven to enter the Contributors page are included:
+- A group: codex, claude (GitHub-registered AI identities)
+- C group: real GitHub bot accounts (guaranteed to show)
 
 Examples:
   python scripts/build_contributors.py --list
-  python scripts/build_contributors.py --tools copilot,gemini,cline
+  python scripts/build_contributors.py --tools codex,renovate
   python scripts/build_contributors.py --bots
   python scripts/build_contributors.py --all
-  python scripts/build_contributors.py --all --commit-message "feat: example"
+  python scripts/build_contributors.py --bots --commit-message "feat: example"
 """
 
 from __future__ import annotations
@@ -17,8 +19,7 @@ import argparse
 import re
 import sys
 
-# 与 docs/contributor-catalog.md 保持同步。
-# free: 工具本身是否免费可用；recognized: 进入 Contributors 页面的实测情况。
+# A 组：已验证计入 Contributors 页面的 AI 身份。
 CATALOG: list[dict] = [
     {
         "id": "codex",
@@ -34,95 +35,190 @@ CATALOG: list[dict] = [
         "free": True,
         "recognized": "verified-on-page",
     },
-    {
-        "id": "copilot",
-        "name": "Copilot",
-        "email": "noreply@github.com",
-        "free": False,
-        "recognized": "not-counted",
-    },
-    {
-        "id": "chatgpt",
-        "name": "ChatGPT",
-        "email": "noreply@openai.com",
-        "free": True,
-        "recognized": "cannot-display",
-    },
-    {
-        "id": "gemini",
-        "name": "Gemini",
-        "email": "noreply@google.com",
-        "free": True,
-        "recognized": "not-counted",
-    },
-    {
-        "id": "aider",
-        "name": "Aider",
-        "email": "aider@aider.ch",
-        "free": True,
-        "recognized": "not-counted",
-    },
-    {
-        "id": "cline",
-        "name": "Cline",
-        "email": "noreply@cline.bot",
-        "free": True,
-        "recognized": "not-counted",
-    },
-    {
-        "id": "cursor",
-        "name": "Cursor",
-        "email": "noreply@cursor.sh",
-        "free": True,
-        "recognized": "not-counted",
-    },
-    {
-        "id": "windsurf",
-        "name": "Windsurf",
-        "email": "noreply@windsurf.com",
-        "free": True,
-        "recognized": "not-counted",
-    },
 ]
 
-# 真实 GitHub Bot 账号：邮箱为 {id}+{login}@users.noreply.github.com，
+# C 组：真实 GitHub Bot 账号，邮箱为 {id}+{login}@users.noreply.github.com，
 # 与 dependabot[bot] 一样能解析到真实账号，必然进入 Contributors 页面。
 BOT_ACCOUNTS: list[dict] = [
     {
         "id": "gemini-code-assist",
         "name": "gemini-code-assist[bot]",
         "email": "176961590+gemini-code-assist[bot]@users.noreply.github.com",
-        "note": "Google Gemini Code Assist bot",
+        "note": "Google Gemini Code Assist 官方 bot",
     },
     {
         "id": "renovate",
         "name": "renovate[bot]",
         "email": "29139614+renovate[bot]@users.noreply.github.com",
-        "note": "Mend Renovate dependency bot",
+        "note": "Mend Renovate 依赖机器人",
     },
     {
         "id": "pre-commit-ci",
         "name": "pre-commit-ci[bot]",
         "email": "66853113+pre-commit-ci[bot]@users.noreply.github.com",
-        "note": "pre-commit.ci autofix bot",
+        "note": "pre-commit.ci 自动修复",
     },
     {
         "id": "snyk",
         "name": "snyk-bot",
         "email": "19733683+snyk-bot@users.noreply.github.com",
-        "note": "Snyk security-fix bot",
+        "note": "Snyk 安全修复",
     },
     {
         "id": "all-contributors",
         "name": "allcontributors[bot]",
         "email": "46447321+allcontributors[bot]@users.noreply.github.com",
-        "note": "all-contributors bot",
+        "note": "all-contributors 名单机器人",
     },
     {
         "id": "copilot-bot",
         "name": "copilot[bot]",
         "email": "167198135+copilot[bot]@users.noreply.github.com",
-        "note": "GitHub Copilot bot account",
+        "note": "GitHub Copilot 官方 bot 账号",
+    },
+    {
+        "id": "claude-bot",
+        "name": "claude[bot]",
+        "email": "209825114+claude[bot]@users.noreply.github.com",
+        "note": "Anthropic Claude 官方 bot 账号",
+    },
+    {
+        "id": "cursor-bot",
+        "name": "cursor[bot]",
+        "email": "206951365+cursor[bot]@users.noreply.github.com",
+        "note": "Cursor AI 官方 bot 账号",
+    },
+    {
+        "id": "qodo-merge",
+        "name": "qodo-merge[bot]",
+        "email": "185363710+qodo-merge[bot]@users.noreply.github.com",
+        "note": "Qodo Merge（PR-Agent）AI 审查/合并 bot",
+    },
+    {
+        "id": "mergify",
+        "name": "mergify[bot]",
+        "email": "37929162+mergify[bot]@users.noreply.github.com",
+        "note": "Mergify 合并队列",
+    },
+    {
+        "id": "kodiakhq",
+        "name": "kodiakhq[bot]",
+        "email": "49736102+kodiakhq[bot]@users.noreply.github.com",
+        "note": "Kodiak 合并队列",
+    },
+    {
+        "id": "github-merge-queue",
+        "name": "github-merge-queue[bot]",
+        "email": "118344674+github-merge-queue[bot]@users.noreply.github.com",
+        "note": "GitHub Merge Queue",
+    },
+    {
+        "id": "scala-steward",
+        "name": "scala-steward",
+        "email": "43047562+scala-steward@users.noreply.github.com",
+        "note": "Scala 依赖更新机器人",
+    },
+    {
+        "id": "pyup",
+        "name": "pyup-bot",
+        "email": "16239342+pyup-bot@users.noreply.github.com",
+        "note": "Python 依赖更新机器人",
+    },
+    {
+        "id": "mend",
+        "name": "mend[bot]",
+        "email": "241224340+mend[bot]@users.noreply.github.com",
+        "note": "Mend 安全扫描 bot",
+    },
+    {
+        "id": "greenkeeper",
+        "name": "greenkeeper[bot]",
+        "email": "23040076+greenkeeper[bot]@users.noreply.github.com",
+        "note": "npm 依赖 bot（已停用）",
+    },
+    {
+        "id": "dependabot-preview",
+        "name": "dependabot-preview[bot]",
+        "email": "27856297+dependabot-preview[bot]@users.noreply.github.com",
+        "note": "Dependabot 旧版 bot（已停用）",
+    },
+    {
+        "id": "semantic-release",
+        "name": "semantic-release-bot",
+        "email": "32174276+semantic-release-bot@users.noreply.github.com",
+        "note": "semantic-release 发布/提交 bot",
+    },
+    {
+        "id": "codecov",
+        "name": "codecov[bot]",
+        "email": "22429695+codecov[bot]@users.noreply.github.com",
+        "note": "Codecov 覆盖率 bot",
+    },
+    {
+        "id": "github-classroom",
+        "name": "github-classroom[bot]",
+        "email": "66690702+github-classroom[bot]@users.noreply.github.com",
+        "note": "GitHub Classroom",
+    },
+    {
+        "id": "github-learning-lab",
+        "name": "github-learning-lab[bot]",
+        "email": "37936606+github-learning-lab[bot]@users.noreply.github.com",
+        "note": "GitHub Learning Lab",
+    },
+    {
+        "id": "first-timers",
+        "name": "first-timers[bot]",
+        "email": "31459394+first-timers[bot]@users.noreply.github.com",
+        "note": "first-timers 引导 bot",
+    },
+    {
+        "id": "request-info",
+        "name": "request-info[bot]",
+        "email": "30733101+request-info[bot]@users.noreply.github.com",
+        "note": "request-info 信息补充 bot",
+    },
+    {
+        "id": "stale",
+        "name": "stale[bot]",
+        "email": "26384082+stale[bot]@users.noreply.github.com",
+        "note": "stale 过期关闭 bot",
+    },
+    {
+        "id": "todo",
+        "name": "todo[bot]",
+        "email": "32347756+todo[bot]@users.noreply.github.com",
+        "note": "todo 转 Issue bot",
+    },
+    {
+        "id": "welcome",
+        "name": "welcome[bot]",
+        "email": "30606887+welcome[bot]@users.noreply.github.com",
+        "note": "welcome 欢迎 bot",
+    },
+    {
+        "id": "wip",
+        "name": "wip[bot]",
+        "email": "29805525+wip[bot]@users.noreply.github.com",
+        "note": "WIP 状态检查 bot",
+    },
+    {
+        "id": "hound",
+        "name": "hound[bot]",
+        "email": "30008653+hound[bot]@users.noreply.github.com",
+        "note": "Hound 代码风格审查 bot",
+    },
+    {
+        "id": "stickler-ci",
+        "name": "stickler-ci[bot]",
+        "email": "41810448+stickler-ci[bot]@users.noreply.github.com",
+        "note": "Stickler CI 风格检查 bot",
+    },
+    {
+        "id": "release-drafter",
+        "name": "release-drafter[bot]",
+        "email": "40829082+release-drafter[bot]@users.noreply.github.com",
+        "note": "Release Drafter 发布草稿 bot",
     },
 ]
 
@@ -149,12 +245,12 @@ def validate(trailers: list[str]) -> None:
 
 
 def print_catalog() -> None:
-    print("AI identities (verified-on-page / not-counted / cannot-display):")
+    print("A. AI identities verified on the Contributors page:")
     print(f"{'ID':<20} {'Trailer':<50} Free  Recognized")
     for entry in CATALOG:
         print(f"{entry['id']:<20} {trailer_for(entry):<50} {str(entry['free']):<6} {entry['recognized']}")
     print()
-    print("Real GitHub bot accounts (guaranteed to show on Contributors):")
+    print("C. Real GitHub bot accounts (guaranteed to show on Contributors):")
     print(f"{'ID':<20} {'Trailer':<58} Note")
     for entry in BOT_ACCOUNTS:
         print(f"{entry['id']:<20} {trailer_for(entry):<58} {entry['note']}")
