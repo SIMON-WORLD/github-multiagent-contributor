@@ -18,28 +18,28 @@ import re
 import sys
 
 # 与 docs/contributor-catalog.md 保持同步。
-# free: 工具本身是否免费可用；recognized: GitHub 官方识别情况。
+# free: 工具本身是否免费可用；recognized: 进入 Contributors 页面的实测情况。
 CATALOG: list[dict] = [
     {
         "id": "codex",
         "name": "Codex",
         "email": "noreply@openai.com",
         "free": True,
-        "recognized": "official-verified",
+        "recognized": "verified-on-page",
     },
     {
         "id": "claude",
         "name": "Claude",
         "email": "noreply@anthropic.com",
         "free": True,
-        "recognized": "official-verified",
+        "recognized": "verified-on-page",
     },
     {
         "id": "copilot",
         "name": "Copilot",
         "email": "noreply@github.com",
         "free": False,
-        "recognized": "official-verified",
+        "recognized": "not-counted",
     },
     {
         "id": "chatgpt",
@@ -53,35 +53,35 @@ CATALOG: list[dict] = [
         "name": "Gemini",
         "email": "noreply@google.com",
         "free": True,
-        "recognized": "official-verified",
+        "recognized": "not-counted",
     },
     {
         "id": "aider",
         "name": "Aider",
         "email": "aider@aider.ch",
         "free": True,
-        "recognized": "community-pending",
+        "recognized": "not-counted",
     },
     {
         "id": "cline",
         "name": "Cline",
         "email": "noreply@cline.bot",
         "free": True,
-        "recognized": "community-pending",
+        "recognized": "not-counted",
     },
     {
         "id": "cursor",
         "name": "Cursor",
         "email": "noreply@cursor.sh",
         "free": True,
-        "recognized": "community-pending",
+        "recognized": "not-counted",
     },
     {
         "id": "windsurf",
         "name": "Windsurf",
         "email": "noreply@windsurf.com",
         "free": True,
-        "recognized": "community-pending",
+        "recognized": "not-counted",
     },
 ]
 
@@ -149,7 +149,7 @@ def validate(trailers: list[str]) -> None:
 
 
 def print_catalog() -> None:
-    print("AI identities (GitHub-registered or community):")
+    print("AI identities (verified-on-page / not-counted / cannot-display):")
     print(f"{'ID':<20} {'Trailer':<50} Free  Recognized")
     for entry in CATALOG:
         print(f"{entry['id']:<20} {trailer_for(entry):<50} {str(entry['free']):<6} {entry['recognized']}")
