@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Generate Co-Authored-By trailers from the free AI contributor catalog.
+"""Generate Co-Authored-By trailers from the free contributor catalog.
+
+Includes GitHub-registered AI identities and real GitHub bot accounts.
 
 Examples:
   python scripts/build_contributors.py --list
   python scripts/build_contributors.py --tools copilot,gemini,cline
+  python scripts/build_contributors.py --bots
   python scripts/build_contributors.py --all
   python scripts/build_contributors.py --all --commit-message "feat: example"
 """
@@ -36,21 +39,21 @@ CATALOG: list[dict] = [
         "name": "Copilot",
         "email": "noreply@github.com",
         "free": False,
-        "recognized": "official-pending",
+        "recognized": "official-verified",
     },
     {
         "id": "chatgpt",
         "name": "ChatGPT",
         "email": "noreply@openai.com",
         "free": True,
-        "recognized": "official-pending",
+        "recognized": "cannot-display",
     },
     {
         "id": "gemini",
         "name": "Gemini",
         "email": "noreply@google.com",
         "free": True,
-        "recognized": "official-pending",
+        "recognized": "official-verified",
     },
     {
         "id": "aider",
@@ -82,7 +85,48 @@ CATALOG: list[dict] = [
     },
 ]
 
-_NAME_EMAIL_RE = re.compile(r"^[A-Za-z0-9._-]+ <[^<>\s]+@[^<>\s]+>$")
+# 真实 GitHub Bot 账号：邮箱为 {id}+{login}@users.noreply.github.com，
+# 与 dependabot[bot] 一样能解析到真实账号，必然进入 Contributors 页面。
+BOT_ACCOUNTS: list[dict] = [
+    {
+        "id": "gemini-code-assist",
+        "name": "gemini-code-assist[bot]",
+        "email": "176961590+gemini-code-assist[bot]@users.noreply.github.com",
+        "note": "Google Gemini Code Assist bot",
+    },
+    {
+        "id": "renovate",
+        "name": "renovate[bot]",
+        "email": "29139614+renovate[bot]@users.noreply.github.com",
+        "note": "Mend Renovate dependency bot",
+    },
+    {
+        "id": "pre-commit-ci",
+        "name": "pre-commit-ci[bot]",
+        "email": "66853113+pre-commit-ci[bot]@users.noreply.github.com",
+        "note": "pre-commit.ci autofix bot",
+    },
+    {
+        "id": "snyk",
+        "name": "snyk-bot",
+        "email": "19733683+snyk-bot@users.noreply.github.com",
+        "note": "Snyk security-fix bot",
+    },
+    {
+        "id": "all-contributors",
+        "name": "allcontributors[bot]",
+        "email": "46447321+allcontributors[bot]@users.noreply.github.com",
+        "note": "all-contributors bot",
+    },
+    {
+        "id": "copilot-bot",
+        "name": "copilot[bot]",
+        "email": "167198135+copilot[bot]@users.noreply.github.com",
+        "note": "GitHub Copilot bot account",
+    },
+]
+
+_NAME_EMAIL_RE = re.compile(r"^[A-Za-z0-9._\-\[\]]+ <[^<>\s]+@[^<>\s]+>$")
 
 
 def trailer_for(entry: dict) -> str:
@@ -90,7 +134,7 @@ def trailer_for(entry: dict) -> str:
 
 
 def select(ids: list[str]) -> list[dict]:
-    by_id = {entry["id"]: entry for entry in CATALOG}
+    by_id = {**{e["id"]: e for e in CATALOG}, **{e["id"]: e for e in BOT_ACCOUNTS}}
     missing = [tool_id for tool_id in ids if tool_id not in by_id]
     if missing:
         raise SystemExit(f"Unknown tool ids: {', '.join(missing)}")
@@ -105,20 +149,24 @@ def validate(trailers: list[str]) -> None:
 
 
 def print_catalog() -> None:
-    print(f"{'ID':<10} {'Display':<12} {'Trailer':<46} Free  GitHub-recognized")
+    print("AI identities (GitHub-registered or community):")
+    print(f"{'ID':<20} {'Trailer':<50} Free  Recognized")
     for entry in CATALOG:
-        print(
-            f"{entry['id']:<10} {entry['name']:<12} "
-            f"{trailer_for(entry):<46} {str(entry['free']):<6} {entry['recognized']}"
-        )
+        print(f"{entry['id']:<20} {trailer_for(entry):<50} {str(entry['free']):<6} {entry['recognized']}")
+    print()
+    print("Real GitHub bot accounts (guaranteed to show on Contributors):")
+    print(f"{'ID':<20} {'Trailer':<58} Note")
+    for entry in BOT_ACCOUNTS:
+        print(f"{entry['id']:<20} {trailer_for(entry):<58} {entry['note']}")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build Co-Authored-By trailers.")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--list", action="store_true", help="list catalog entries")
-    group.add_argument("--tools", help="comma-separated tool ids")
-    group.add_argument("--all", action="store_true", help="select every catalog entry")
+    group.add_argument("--tools", help="comma-separated ids (AI identities or bot accounts)")
+    group.add_argument("--bots", action="store_true", help="select all real GitHub bot accounts")
+    group.add_argument("--all", action="store_true", help="select every entry")
     parser.add_argument(
         "--commit-message",
         help="optional commit subject; when set, print a full commit message",
@@ -130,7 +178,9 @@ def main() -> int:
         return 0
 
     if args.all:
-        entries = CATALOG
+        entries = CATALOG + BOT_ACCOUNTS
+    elif args.bots:
+        entries = BOT_ACCOUNTS
     else:
         entries = select([item.strip() for item in args.tools.split(",") if item.strip()])
 
