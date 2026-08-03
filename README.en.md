@@ -32,9 +32,21 @@ AGENT_CHECKIN_ENABLED=true
 AGENT_CHECKIN_AUTHORS=Codex <noreply@openai.com>;Claude <noreply@anthropic.com>
 ```
 
-GitHub Actions must be allowed to write to the default branch. Each identity email must belong to a real, GitHub-recognized agent or bot identity. Do not forge addresses.
+GitHub Actions must be allowed to write to the default branch. Each identity email must belong to a real, GitHub-recognized agent or bot identity. Do not forge addresses. The default carries every free AI co-author identity in the catalog below; set `AGENT_CHECKIN_AUTHORS` to keep only a subset.
 
 See [Scheduled Agent Check-in](docs/scheduled-agent-checkin.md).
+
+## Free AI co-author catalog (optional)
+
+To quickly add more free AI tool identities to the Contributors page, use the [contributor catalog](docs/contributor-catalog.md) and the [selection script](scripts/build_contributors.py):
+
+```text
+python scripts/build_contributors.py --list                  # list all identities
+python scripts/build_contributors.py --tools copilot,gemini  # pick a subset
+python scripts/build_contributors.py --all --commit-message "feat: x"  # generate a commit message with trailers
+```
+
+Append the generated `Co-Authored-By:` lines to a commit and merge it into the default branch; the identity then appears on the Contributors page. This is attribution only and does not claim the tool actually participated in every commit.
 
 ## Real PR collaboration
 
@@ -65,6 +77,7 @@ AGENTS.md
 docs/
 scripts/check_commit_emails.py
 scripts/check_repository_hygiene.py
+scripts/build_contributors.py
 tests/
 ```
 
@@ -75,7 +88,8 @@ Then:
 3. Set `AGENT_CHECKIN_ENABLED` and `AGENT_CHECKIN_AUTHORS`.
 4. Grant Actions `Contents: write` permission.
 5. Run Check-in once and inspect the commit, CSV record, and Contributors.
-6. Use Issue → branch → PR → CI → review → merge for real tasks.
+6. To add more free AI identities, select them with `build_contributors.py` and merge a commit carrying the trailers.
+7. Use Issue → branch → PR → CI → review → merge for real tasks.
 
 ## Contributor attribution
 
