@@ -49,9 +49,9 @@ jobs:
             exit 0
           fi
 
-          # 默认携带全部免费 AI 共同作者身份（与 docs/contributor-catalog.md 同步）。
-          # 想选择部分身份时，在仓库变量 AGENT_CHECKIN_AUTHORS 里用英文分号覆盖。
-          authors="${AGENT_CHECKIN_AUTHORS:-Codex <noreply@openai.com>;Claude <noreply@anthropic.com>;Copilot <noreply@github.com>;ChatGPT <noreply@openai.com>;Gemini <noreply@google.com>;Aider <aider@aider.ch>;Cline <noreply@cline.bot>;Cursor <noreply@cursor.sh>;Windsurf <noreply@windsurf.com>}"
+          # 默认携带 Codex、Claude 与两位维护者；其他仓库可设置仓库变量
+          # AGENT_CHECKIN_AUTHORS（英文分号分隔）选择自己的身份组合。
+          authors="${AGENT_CHECKIN_AUTHORS:-Codex <noreply@openai.com>;Claude <noreply@anthropic.com>;SIMON-WORLD <252317962+SIMON-WORLD@users.noreply.github.com>;ukinch605 <305923263+ukinch605@users.noreply.github.com>}"
           author_names=""
           trailer_file="$(mktemp)"
           trap 'rm -f "$trailer_file"' EXIT

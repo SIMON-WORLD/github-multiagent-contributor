@@ -17,7 +17,7 @@
 ## C. 真实 GitHub Bot 账号（必然进入 Contributors）
 
 与 `dependabot[bot]`、`github-actions[bot]` 一样是真实 GitHub 账号，邮箱格式
-`{id}+{login}@users.noreply.github.com`，解析是确定性的（已验证 6/6 起步，已扩展到 30 个）：
+`{id}+{login}@users.noreply.github.com`，解析是确定性的（已验证 6/6 起步，已扩展到 33 个）：
 
 | ID | 展示名 | 尾注格式 | 说明 |
 |---|---|---|---|
@@ -51,6 +51,9 @@
 | hound | hound[bot] | `hound[bot] <30008653+hound[bot]@users.noreply.github.com>` | Hound 代码风格审查 bot |
 | stickler-ci | stickler-ci[bot] | `stickler-ci[bot] <41810448+stickler-ci[bot]@users.noreply.github.com>` | Stickler CI 风格检查 bot |
 | release-drafter | release-drafter[bot] | `release-drafter[bot] <40829082+release-drafter[bot]@users.noreply.github.com>` | Release Drafter 发布草稿 bot |
+| pypi | pypi[bot] | `pypi[bot] <253595658+pypi[bot]@users.noreply.github.com>` | PyPI 官方 bot |
+| npm | npm[bot] | `npm[bot] <38296568+npm[bot]@users.noreply.github.com>` | npm 官方 bot |
+| octokit | octokit[bot] | `octokit[bot] <171388558+octokit[bot]@users.noreply.github.com>` | GitHub 官方 Octokit bot |
 
 说明：
 - 带 `[bot]` 的名字可以放进 `AGENT_CHECKIN_AUTHORS`（工作流正则已支持方括号），
@@ -88,6 +91,5 @@ python scripts/build_contributors.py --bots --commit-message "feat: example"
 ### 可选：让每日 check-in 自动携带选中的身份
 
 参考 `.github/workflows/scheduled-agent-checkin.yml`：
-- 默认会携带 A 组全部身份；
-- 想选择部分身份，在目标仓库设置变量 `AGENT_CHECKIN_AUTHORS`，用英文分号分隔；
+- 默认会携带 Codex、Claude 与维护者（可设置仓库变量 `AGENT_CHECKIN_AUTHORS` 覆盖）；
 - 开启方式：设置仓库变量 `AGENT_CHECKIN_ENABLED=true`，然后手动运行一次该工作流。
