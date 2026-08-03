@@ -32,9 +32,21 @@ AGENT_CHECKIN_ENABLED=true
 AGENT_CHECKIN_AUTHORS=Codex <noreply@openai.com>;Claude <noreply@anthropic.com>
 ```
 
-还需要允许 GitHub Actions 向默认分支写入。身份邮箱必须是 GitHub 能识别的真实 Agent 或 Bot 身份；不要伪造邮箱。
+还需要允许 GitHub Actions 向默认分支写入。身份邮箱必须是 GitHub 能识别的真实 Agent 或 Bot 身份；不要伪造邮箱。默认会携带全部免费 AI 共同作者身份（见下方目录）；只想保留部分身份时，用 `AGENT_CHECKIN_AUTHORS` 变量覆盖即可。
 
 详细说明见 [自动 Check-in 文档](docs/scheduled-agent-checkin.md)。
+
+## 免费共同作者目录（可选）
+
+想快速让更多免费 AI 工具身份出现在 Contributors 页面，可以直接使用本仓库的 [免费共同作者目录](docs/contributor-catalog.md) 与 [选择脚本](scripts/build_contributors.py)：
+
+```text
+python scripts/build_contributors.py --list                  # 查看全部身份
+python scripts/build_contributors.py --tools copilot,gemini  # 选择部分身份
+python scripts/build_contributors.py --all --commit-message "feat: x"  # 生成带尾注的提交信息
+```
+
+把生成的 `Co-Authored-By:` 行追加到提交信息并合并进默认分支，即可在 Contributors 页面看到对应身份。它只做归因，不代表对应工具真实参与了每个提交。
 
 ## 真实 PR 协作模式
 
@@ -65,6 +77,7 @@ AGENTS.md
 docs/
 scripts/check_commit_emails.py
 scripts/check_repository_hygiene.py
+scripts/build_contributors.py
 tests/
 ```
 
@@ -75,7 +88,8 @@ tests/
 3. 设置 `AGENT_CHECKIN_ENABLED` 与 `AGENT_CHECKIN_AUTHORS`。
 4. 确认 Actions 具有 `Contents: write` 权限。
 5. 手动运行一次 Check-in，再检查提交、CSV 记录和 Contributors。
-6. 有真实任务时，使用 Issue → 分支 → PR → CI → Review → 合并流程。
+6. 想添加更多免费 AI 身份时，用 `build_contributors.py` 选择身份并合并一个带尾注的提交。
+7. 有真实任务时，使用 Issue → 分支 → PR → CI → Review → 合并流程。
 
 ## Contributor 归属规则
 
