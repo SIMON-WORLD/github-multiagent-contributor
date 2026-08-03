@@ -2,7 +2,10 @@ name: Scheduled Agent Check-in
 
 on:
   schedule:
+    # 双 cron 兜底：GitHub 定时偶发跳跑；CSV 按日期去重，两个时段最多各尝试一次。
     - cron: "17 0 * * *"
+      timezone: "Asia/Shanghai"
+    - cron: "17 8 * * *"
       timezone: "Asia/Shanghai"
   workflow_dispatch:
 

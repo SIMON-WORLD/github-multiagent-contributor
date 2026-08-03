@@ -16,14 +16,14 @@ This project provides two complementary modes:
 When enabled, GitHub Actions runs:
 
 ```text
-Scheduled run
-→ Update activity/agent-checkins.csv
+Scheduled run (once a day, 00:17 Asia/Shanghai)
+→ Update activity/agent-checkins.csv (at most one record per date)
 → Create an automated commit
 → Add configured Co-Authored-By trailers
 → Record the commit on the default branch
 ```
 
-This records automation activity; it does not claim that an agent completed substantive development or research that day. It writes at most one record per date and is disabled by default.
+This records automation activity; it does not claim that an agent completed substantive development or research that day. It is disabled by default.
 
 Repository variables:
 
@@ -32,21 +32,29 @@ AGENT_CHECKIN_ENABLED=true
 AGENT_CHECKIN_AUTHORS=Codex <noreply@openai.com>;Claude <noreply@anthropic.com>
 ```
 
-GitHub Actions must be allowed to write to the default branch. Each identity email must belong to a real, GitHub-recognized agent or bot identity. Do not forge addresses. The default carries every free AI co-author identity in the catalog below; set `AGENT_CHECKIN_AUTHORS` to keep only a subset.
+- The default in this repository is Codex, Claude and the two maintainers; **other repositories should set `AGENT_CHECKIN_AUTHORS` to their own identity set** (semicolon-separated).
+- GitHub Actions must be allowed to write to the default branch. Each identity email must belong to a real, GitHub-recognized agent or bot identity. Do not forge addresses.
+- Note: GitHub scheduled runs are occasionally skipped. If no record appears for the day, open the `Scheduled Agent Check-in` workflow on the Actions page and click **Run workflow** (the CSV is deduplicated by date, so no duplicates).
 
 See [Scheduled Agent Check-in](docs/scheduled-agent-checkin.md).
 
-## Free AI co-author catalog (optional)
+## Verified co-author catalog (optional)
 
-To quickly add more free AI tool identities to the Contributors page, use the [contributor catalog](docs/contributor-catalog.md) and the [selection script](scripts/build_contributors.py):
+To add more identities to the Contributors page, use the [contributor catalog](docs/contributor-catalog.md) and the [selection script](scripts/build_contributors.py):
 
 ```text
 python scripts/build_contributors.py --list                  # list all identities
-python scripts/build_contributors.py --tools copilot,gemini  # pick a subset
+python scripts/build_contributors.py --tools codex,renovate  # pick a subset
+python scripts/build_contributors.py --bots                  # all real bot accounts (always show)
 python scripts/build_contributors.py --all --commit-message "feat: x"  # generate a commit message with trailers
 ```
 
-Append the generated `Co-Authored-By:` lines to a commit and merge it into the default branch; the identity then appears on the Contributors page. This is attribution only and does not claim the tool actually participated in every commit.
+Identities are split into two groups (verified in this repository):
+
+- **Group A**: codex, claude (GitHub-registered AI identities; trailers count on the page).
+- **Group C**: 33 real GitHub bot accounts (e.g. dependabot[bot], renovate[bot], mergify[bot]; emails resolve to real accounts, so they always appear).
+
+Append the generated `Co-Authored-By:` lines to a commit and merge it into the default branch. This is attribution only and does not claim the tool actually participated in every commit. This repository reached 42 identities on the Contributors page; full findings are in the [verification report](docs/verification-report.md).
 
 ## Real PR collaboration
 
@@ -64,32 +72,25 @@ Issue defines the goal and acceptance criteria
 
 Routine maintenance can be handled directly by the maintainer. Require human or agent review for major features, architecture changes, data changes, and releases.
 
-## Apply to another repository
+## Apply to an existing repository
 
-Copy the following components:
+**Existing repositories do not need the whole template.** Copy the pieces you need:
 
 ```text
-AGENTS.md
-.github/ISSUE_TEMPLATE/agent-task.yml
-.github/pull_request_template.md
-.github/workflows/tests.yml
-.github/workflows/scheduled-agent-checkin.yml
-docs/
-scripts/check_commit_emails.py
-scripts/check_repository_hygiene.py
-scripts/build_contributors.py
-tests/
+docs/contributor-catalog.md        # identity catalog (choose which identities)
+docs/verification-report.md        # verification findings (optional reference)
+scripts/build_contributors.py      # identity selection script
+.github/workflows/scheduled-agent-checkin.yml   # daily check-in (optional)
+docs/scheduled-agent-checkin.md    # check-in docs (optional)
 ```
 
 Then:
 
-1. Add the target repository's build and test commands.
-2. Place `scheduled-agent-checkin.yml` under `.github/workflows/`.
-3. Set `AGENT_CHECKIN_ENABLED` and `AGENT_CHECKIN_AUTHORS`.
-4. Grant Actions `Contents: write` permission.
-5. Run Check-in once and inspect the commit, CSV record, and Contributors.
-6. To add more free AI identities, select them with `build_contributors.py` and merge a commit carrying the trailers.
-7. Use Issue → branch → PR → CI → review → merge for real tasks.
+1. Use `build_contributors.py` to choose identities, put the trailers in a commit and merge it into the default branch (one-off).
+2. Optional: add `scheduled-agent-checkin.yml`, set `AGENT_CHECKIN_ENABLED=true` and `AGENT_CHECKIN_AUTHORS` to carry the identities daily.
+3. Refresh the Contributors page to verify.
+
+Repositories that also want the full agent collaboration flow (Issue→PR→CI→review) can additionally copy `AGENTS.md`, Issue/PR templates, `tests.yml`, the email/hygiene gate scripts and `tests/`.
 
 ## Contributor attribution
 
