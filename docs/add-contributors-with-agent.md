@@ -4,12 +4,24 @@
 目标：在**任意 GitHub 仓库**里，用最少配置把「共同作者」身份变成 Contributors 页面的贡献者，
 或反过来移除某个身份。
 
-前置条件（仓库内已有本套件）：
+## 零手工：一条命令自助安装
 
-```text
-scripts/build_contributors.py     # 自助脚本（必须）
-docs/contributor-catalog.md       # 身份目录（必须）
+**不需要手动复制任何文件。** 任意 Agent 在目标仓库里执行下面任一条，套件会自动下载到当前仓库：
+
+```bash
+# 方式 A：直接管道执行（bash/zsh）
+bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-agent-contributor-workflow/main/scripts/fetch-kit.sh)
+
+# 方式 B：先下载再执行（更稳，Windows Git Bash / WSL 也可用）
+curl -fsSL -o /tmp/fetch-kit.sh https://raw.githubusercontent.com/academic-door/github-agent-contributor-workflow/main/scripts/fetch-kit.sh
+bash /tmp/fetch-kit.sh
 ```
+
+脚本会下载 `scripts/build_contributors.py` 与 `docs/` 到当前仓库，然后按下方三步执行。
+（套件来源仓库可换：`bash /tmp/fetch-kit.sh owner/repo`。）
+
+> 前提：你的 Agent 需要能访问 GitHub —— 下载套件来自 public 仓库，**无需登录**；
+> 但**推分支 / 开 PR 需要 Agent 已认证 GitHub**（gh CLI 已登录，或 Agent 自己的 GitHub 集成）。
 
 ## 快速开始（三步）
 
