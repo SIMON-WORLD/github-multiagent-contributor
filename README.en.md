@@ -31,6 +31,8 @@ Do not want to type the commands yourself? Just tell any agent session (Codex / 
 
 > Use https://github.com/academic-door/github-multiagent-contributor to add codex, claude and renovate as contributors to `<target repository>`.
 
+`codex, claude, renovate` is just an example — **any one or any combination works**, e.g. "add codex", "add codex and renovate", or "add all the bots from the catalog". The count is up to you.
+
 The agent will: download the kit → `--apply` to create a branch with trailers → push the branch → open a PR. You only confirm before the merge.
 
 ## Identity catalog

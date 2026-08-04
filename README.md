@@ -31,6 +31,8 @@ python scripts/build_contributors.py --apply --tools codex,claude,renovate
 
 > 用 https://github.com/academic-door/github-multiagent-contributor 这套方案，给 `<目标仓库>` 加 codex、claude、renovate 作为 contributor。
 
+`codex、claude、renovate` 只是示例——**任意一个或任意组合都可以**，例如「加 codex」「加 codex 和 renovate」「把目录里的 bot 都加上」，数量随意。
+
 Agent 会自行完成：下载套件 → `--apply` 建分支并写入尾注 → 推送分支 → 打开 PR。你只需在合并前确认。
 
 ## 身份目录
