@@ -25,6 +25,14 @@ python scripts/build_contributors.py --apply --tools codex,claude,renovate
 
 > 前提：Agent 已认证 GitHub（可推送分支 / 开 PR）。身份邮箱必须是 GitHub 能识别的真实 Agent / Bot 身份，禁止伪造。
 
+### 交给你的 Agent 去实现
+
+不想自己敲命令？在任意 Agent 会话（Codex / Claude Code / Gemini CLI / Cursor）里直接说：
+
+> 用 https://github.com/academic-door/github-multiagent-contributor 这套方案，给 `<目标仓库>` 加 codex、claude、renovate 作为 contributor。
+
+Agent 会自行完成：下载套件 → `--apply` 建分支并写入尾注 → 推送分支 → 打开 PR。你只需在合并前确认。
+
 ## 身份目录
 
 [contributor-catalog.md](docs/contributor-catalog.md) 收录两类**已验证**身份（共 35 个）：
