@@ -1,9 +1,9 @@
 # 验证报告：共同作者 → Contributors 页面
 
-本报告记录 `github-agent-contributor-workflow` 仓库关于「用 `Co-Authored-By` 尾注让身份进入 Contributors 页面」的完整实测结论，供迁移到其他仓库时直接参考。
+本报告记录 `github-multiagent-contributor` 仓库关于「用 `Co-Authored-By` 尾注让身份进入 Contributors 页面」的完整实测结论，供迁移到其他仓库时直接参考。
 
 - 验证时间：2026-08-03 ~ 2026-08-04
-- 验证仓库：https://github.com/academic-door/github-agent-contributor-workflow
+- 验证仓库：https://github.com/academic-door/github-multiagent-contributor
 - 最终结果：Contributors 页面 **42 个身份**
 
 ## 1. 机制原理
