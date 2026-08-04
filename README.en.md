@@ -25,6 +25,14 @@ The first command installs the kit (public raw URL, no login required); the seco
 
 > Prerequisite: the agent must be authenticated to GitHub (able to push branches / open PRs). Identity emails must be real, GitHub-recognized agent/bot identities; forging is forbidden.
 
+### Let your agent do it
+
+Do not want to type the commands yourself? Just tell any agent session (Codex / Claude Code / Gemini CLI / Cursor):
+
+> Use https://github.com/academic-door/github-multiagent-contributor to add codex, claude and renovate as contributors to `<target repository>`.
+
+The agent will: download the kit → `--apply` to create a branch with trailers → push the branch → open a PR. You only confirm before the merge.
+
 ## Identity catalog
 
 [contributor-catalog.md](docs/contributor-catalog.md) lists two **verified** identity classes (35 in total):

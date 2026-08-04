@@ -4,6 +4,8 @@
 曾经测试的 B 组（Gemini/Copilot 的 noreply 邮箱、ChatGPT、Aider、Cline、Cursor、Windsurf）
 已实测不会进入页面，故从本目录移除。
 
+> 快速安装：`bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh)`
+>
 > 透明披露：共同作者尾注只用于署名归因，不代表对应工具真实参与了每一个提交；
 > 本仓库把它当作“归因记录”功能使用，与 `activity/agent-checkins.csv` 配套。
 
@@ -96,7 +98,7 @@ python scripts/build_contributors.py --bots --commit-message "feat: example"
 
 ## 迁移到其他仓库（三步）
 
-1. 复制本目录的 `docs/contributor-catalog.md` 和 `scripts/build_contributors.py` 到目标仓库。
+1. 一键安装套件（见顶部命令），或手动复制本目录的 `docs/contributor-catalog.md` 与 `scripts/build_contributors.py` 到目标仓库。
 2. 用 `build_contributors.py` 选择要添加的身份（A 组或 C 组），把尾注写进提交信息并合并进默认分支。
 3. 刷新目标仓库 Contributors 页面，核对出现哪些身份。
 
