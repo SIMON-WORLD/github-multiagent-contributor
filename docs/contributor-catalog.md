@@ -75,12 +75,24 @@ python scripts/build_contributors.py --bots
 # 选择全部（A+C）
 python scripts/build_contributors.py --all
 
+# 自助：自动建分支 + 提交 + 尾注（推荐给 Agent）
+python scripts/build_contributors.py --apply --tools codex,renovate,snyk
+
 # 直接生成带尾注的完整提交信息
 python scripts/build_contributors.py --bots --commit-message "feat: example"
 ```
 
 把生成的 `Co-Authored-By:` 行追加到 commit message 末尾再提交即可。
 提交进入默认分支（直接 push 或 squash 合并均可保留尾注）后，刷新 Contributors 页面验证。
+
+## 如何移除身份
+
+- **停止再新增**：`python scripts/build_contributors.py --remove --tools renovate`
+  会同时从本目录和 `build_contributors.py` 删除该身份；并把仓库变量 `AGENT_CHECKIN_AUTHORS`
+  里对应的身份删掉（若 check-in 在用）。
+- **历史提交仍计入页面**：`--remove` 只影响未来；想从 Contributors 页面抹去历史只能重写
+  默认分支历史（force-push，高风险，不推荐）。
+- **验证**：`python scripts/build_contributors.py --check --tools renovate` 应显示 ABSENT。
 
 ## 迁移到其他仓库（三步）
 
