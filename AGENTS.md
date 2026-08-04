@@ -51,3 +51,13 @@ Reviewers should check:
 - whether the PR introduces hidden scope expansion
 - whether research claims, data interpretation, or release decisions still need human judgment
 
+## Contributor Identity Self-Serve
+
+Any agent can add, remove, or verify co-author contributor identities with the self-serve script:
+
+- List identities: `python scripts/build_contributors.py --list`
+- Add identities (branch + commit with trailers): `python scripts/build_contributors.py --apply --tools codex,claude,renovate`
+- Remove identities (from catalog + script): `python scripts/build_contributors.py --remove --tools renovate`
+- Verify presence: `python scripts/build_contributors.py --check --tools codex`
+
+Read `docs/add-contributors-with-agent.md` and `docs/contributor-catalog.md` before changing identities.
