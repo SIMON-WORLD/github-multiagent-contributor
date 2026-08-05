@@ -8,6 +8,7 @@ Only identities proven to enter the Contributors page are included:
 Self-serve for agents:
   python scripts/build_contributors.py --list
   python scripts/build_contributors.py --apply --tools codex,claude,renovate
+  python scripts/build_contributors.py --apply --tools codex --commit-kit
   python scripts/build_contributors.py --remove --tools renovate
   python scripts/build_contributors.py --check --tools codex
 """
@@ -320,6 +321,10 @@ def cmd_apply(args) -> int:
         names = "; ".join(e["name"] for e in entries)
         writer.writerow([datetime.date.today().isoformat(), names, len(trailers)])
     _git("add", csv_path)
+    if args.commit_kit:
+        for _kit in ("scripts/build_contributors.py", "docs/contributor-catalog.md", "docs/add-contributors-with-agent.md"):
+            if os.path.exists(_kit):
+                _git("add", _kit)
     subject = args.subject or "chore: attribute contributor identities"
     message = subject + "\n\nAutomated attribution record; no substantive code change.\n\n" + "\n".join(trailers)
     msg_file = os.path.join(os.getcwd(), ".git", "contributor-commit-message.txt")
@@ -407,6 +412,7 @@ def main() -> int:
     parser.add_argument("--commit-message", help="optional commit subject; when set, print a full commit message")
     parser.add_argument("--branch", help="branch name for --apply")
     parser.add_argument("--subject", help="commit subject for --apply")
+    parser.add_argument("--commit-kit", action="store_true", help="also commit the kit files into the repo (self-contained style)")
     parser.add_argument("--limit", type=int, help="how many recent commits --check scans (default 100)")
     args = parser.parse_args()
 

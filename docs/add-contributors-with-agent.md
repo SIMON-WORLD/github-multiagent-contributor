@@ -48,6 +48,10 @@ python scripts/build_contributors.py --apply --bots
 python scripts/build_contributors.py --apply --tools codex,renovate --subject "chore: attribute identities"
 ```
 
+> **两种接入风格**
+> - 默认（干净）：只提交归属记录 `activity/contributor-attributions.csv`，套件仅本地使用，仓库零污染；
+> - `--commit-kit`（自包含）：套件 3 个文件一并提交进仓库，后续 `--remove` / `--check` 可直接在仓库内运行。
+
 脚本会：新建分支 `contributor/add-<n>` → 追加 `activity/contributor-attributions.csv` 记录 → 用带
 `Co-Authored-By:` 尾注的提交信息提交。随后按脚本提示推送并开 PR：
 

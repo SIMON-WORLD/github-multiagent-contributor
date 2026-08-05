@@ -77,8 +77,11 @@ python scripts/build_contributors.py --bots
 # 选择全部（A+C）
 python scripts/build_contributors.py --all
 
-# 自助：自动建分支 + 提交 + 尾注（推荐给 Agent）
+# 自助：自动建分支 + 提交 + 尾注（默认只提交归属记录，干净风格）
 python scripts/build_contributors.py --apply --tools codex,renovate,snyk
+
+# 自助 + 自包含：套件文件一并入库，后续 --remove/--check 可在仓库内直接跑
+python scripts/build_contributors.py --apply --tools codex,renovate,snyk --commit-kit
 
 # 直接生成带尾注的完整提交信息
 python scripts/build_contributors.py --bots --commit-message "feat: example"

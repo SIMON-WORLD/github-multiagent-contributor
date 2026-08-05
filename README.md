@@ -23,6 +23,8 @@ python scripts/build_contributors.py --apply --tools codex,claude,renovate
 
 第一条命令自动安装套件（public 仓库直连，无需登录）；第二条命令自动创建分支、写入 `Co-Authored-By` 尾注并提交，随后推送并打开 PR；合并后身份即进入 Contributors 页面。
 
+> 接入风格：默认只提交归属记录 CSV（干净，推荐）；需要「自包含」（套件入库、仓库内直接 `--remove` / `--check`）时，给 `--apply` 加 `--commit-kit`。
+
 > 前提：Agent 已认证 GitHub（可推送分支 / 开 PR）。身份邮箱必须是 GitHub 能识别的真实 Agent / Bot 身份，禁止伪造。
 
 ### 交给你的 Agent 去实现

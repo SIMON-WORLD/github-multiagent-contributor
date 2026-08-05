@@ -23,6 +23,8 @@ python scripts/build_contributors.py --apply --tools codex,claude,renovate
 
 The first command installs the kit (public raw URL, no login required); the second creates a branch, writes `Co-Authored-By` trailers, and commits, then pushes and opens a PR. Once merged, the identities appear on the Contributors page.
 
+> Integration styles: by default only the attribution CSV is committed (clean, recommended); add `--commit-kit` to `--apply` for the self-contained style (kit files committed so `--remove` / `--check` run inside the repo).
+
 > Prerequisite: the agent must be authenticated to GitHub (able to push branches / open PRs). Identity emails must be real, GitHub-recognized agent/bot identities; forging is forbidden.
 
 ### Let your agent do it
