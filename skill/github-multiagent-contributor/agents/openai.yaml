@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Multi-Agent Contributor"
+  short_description: "Add/remove/verify multi-agent contributor identities on any GitHub repository"
+  default_prompt: "Use $github-multiagent-contributor to add contributor identities (codex, claude, or real GitHub bot accounts) to a GitHub repository: install the kit via fetch-kit.sh, run build_contributors.py --apply/--remove/--check, open a PR, and report next steps."

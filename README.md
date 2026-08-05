@@ -37,6 +37,14 @@ python scripts/build_contributors.py --apply --tools codex,claude,renovate
 
 Agent 会自行完成：下载套件 → `--apply` 建分支并写入尾注 → 推送分支 → 打开 PR。你只需在合并前确认。
 
+## 作为 Skill 使用
+
+本仓库自带可发布 Skill：`skill/github-multiagent-contributor/`（含 `SKILL.md` 与 `agents/openai.yaml`，兼容主流 Agent Skill 格式）。
+
+- **本机安装**：把 `skill/github-multiagent-contributor/` 复制到你的 Agent 的 skills 目录（Codex 用 `.agents/skills/`，Claude Code 用 `~/.claude/skills/`）。
+- **发布分享**：可直接把该目录上传到支持 Agent Skills 的平台供他人安装。
+- **使用**：安装后，对该 Agent 说「用 github-multiagent-contributor 给 X 仓库加 codex、claude」即可，Agent 会按 skill 指引自动完成。
+
 ## 身份目录
 
 [contributor-catalog.md](docs/contributor-catalog.md) 收录两类**已验证**身份（共 35 个）：
