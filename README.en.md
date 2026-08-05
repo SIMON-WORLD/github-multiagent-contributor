@@ -37,6 +37,14 @@ Do not want to type the commands yourself? Just tell any agent session (Codex / 
 
 The agent will: download the kit → `--apply` to create a branch with trailers → push the branch → open a PR. You only confirm before the merge.
 
+## Use as a Skill
+
+This repository ships a publishable skill at `skill/github-multiagent-contributor/` (with `SKILL.md` and `agents/openai.yaml`, compatible with mainstream agent skill formats).
+
+- **Local install**: copy `skill/github-multiagent-contributor/` into your agent's skills directory (`.agents/skills/` for Codex, `~/.claude/skills/` for Claude Code).
+- **Publish**: upload the directory to any platform that supports agent skills.
+- **Use**: after installation, tell the agent "use github-multiagent-contributor to add codex and claude to repository X" and it will follow the skill to complete the task.
+
 ## Identity catalog
 
 [contributor-catalog.md](docs/contributor-catalog.md) lists two **verified** identity classes (35 in total):
