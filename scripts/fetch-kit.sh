@@ -2,13 +2,13 @@
 # One-command installer for the multi-agent contributor kit.
 #
 # Usage (run inside the target repository, any agent/human):
-#   bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh)
-#   # or: curl -fsSL -o /tmp/fetch-kit.sh https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh && bash /tmp/fetch-kit.sh
+#   bash <(curl -fsSL https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh)
+#   # or: curl -fsSL -o /tmp/fetch-kit.sh https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh && bash /tmp/fetch-kit.sh
 #
 # Optional: pass another source repo as $1, e.g. bash fetch-kit.sh owner/repo
 set -euo pipefail
 
-SRC="${1:-academic-door/github-multiagent-contributor}"
+SRC="${1:-SIMON-WORLD/github-multiagent-contributor}"
 BASE="https://raw.githubusercontent.com/${SRC}/main"
 
 dl() {

@@ -17,7 +17,7 @@ A multi-agent contributor solution for GitHub repositories: let Codex, Claude, a
 Any agent (Codex / Claude Code / Gemini CLI / Cursor, etc.) can run this inside the target repository:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh)
 python scripts/build_contributors.py --apply --tools codex,claude,renovate
 ```
 
@@ -31,7 +31,7 @@ The first command installs the kit (public raw URL, no login required); the seco
 
 Do not want to type the commands yourself? Just tell any agent session (Codex / Claude Code / Gemini CLI / Cursor):
 
-> Use https://github.com/academic-door/github-multiagent-contributor to add codex, claude and renovate as contributors to `<target repository>`.
+> Use https://github.com/SIMON-WORLD/github-multiagent-contributor to add codex, claude and renovate as contributors to `<target repository>`.
 
 `codex, claude, renovate` is just an example — **any one or any combination works**, e.g. "add codex", "add codex and renovate", or "add all the bots from the catalog". The count is up to you.
 

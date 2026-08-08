@@ -23,7 +23,7 @@ description: Add, remove, or verify multi-agent contributor identities (Codex, C
 ### 1. 一键安装套件（在目标仓库目录内）
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh)
 ```
 
 自动下载 `scripts/build_contributors.py` 与 `docs/` 到当前仓库。

@@ -3,7 +3,7 @@
 本报告记录 `github-multiagent-contributor` 仓库关于「用 `Co-Authored-By` 尾注让身份进入 Contributors 页面」的完整实测结论，供迁移到其他仓库时直接参考。
 
 - 验证时间：2026-08-03 ~ 2026-08-04
-- 验证仓库：https://github.com/academic-door/github-multiagent-contributor
+- 验证仓库：https://github.com/SIMON-WORLD/github-multiagent-contributor
 - 最终结果：Contributors 页面 **42 个身份**（截至 2026-08-04 实测；每日 check-in 会持续累计贡献次数）
 
 ## 1. 机制原理
@@ -57,7 +57,7 @@ GitHub 会解析进入默认分支的提交中的 `Co-Authored-By: Name <email>`
 
 ## 5. 迁移到其他仓库（快速版）
 
-1. **一键安装**：`bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh)`（自动下载 `build_contributors.py` 与 `docs/`）。
+1. **一键安装**：`bash <(curl -fsSL https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh)`（自动下载 `build_contributors.py` 与 `docs/`）。
 2. **选择身份**：`python scripts/build_contributors.py --tools codex,renovate,snyk` 或 `--bots`；自助建分支+提交用 `--apply --tools ...`。
 3. 合并进默认分支，刷新 Contributors 页面核对。
 4. **想每日自动**：设 `AGENT_CHECKIN_ENABLED=true` 与 `AGENT_CHECKIN_AUTHORS`（自己的身份组合）。
