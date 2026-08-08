@@ -17,7 +17,7 @@
 任何 Agent（Codex / Claude Code / Gemini CLI / Cursor 等）都可在目标仓库内执行：
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh)
 python scripts/build_contributors.py --apply --tools codex,claude,renovate
 ```
 
@@ -31,7 +31,7 @@ python scripts/build_contributors.py --apply --tools codex,claude,renovate
 
 不想自己敲命令？在任意 Agent 会话（Codex / Claude Code / Gemini CLI / Cursor）里直接说：
 
-> 用 https://github.com/academic-door/github-multiagent-contributor 这套方案，给 `<目标仓库>` 加 codex、claude、renovate 作为 contributor。
+> 用 https://github.com/SIMON-WORLD/github-multiagent-contributor 这套方案，给 `<目标仓库>` 加 codex、claude、renovate 作为 contributor。
 
 `codex、claude、renovate` 只是示例——**任意一个或任意组合都可以**，例如「加 codex」「加 codex 和 renovate」「把目录里的 bot 都加上」，数量随意。
 

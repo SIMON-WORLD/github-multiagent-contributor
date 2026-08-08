@@ -10,10 +10,10 @@
 
 ```bash
 # 方式 A：直接管道执行（bash/zsh）
-bash <(curl -fsSL https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh)
 
 # 方式 B：先下载再执行（更稳，Windows Git Bash / WSL 也可用）
-curl -fsSL -o /tmp/fetch-kit.sh https://raw.githubusercontent.com/academic-door/github-multiagent-contributor/main/scripts/fetch-kit.sh
+curl -fsSL -o /tmp/fetch-kit.sh https://raw.githubusercontent.com/SIMON-WORLD/github-multiagent-contributor/main/scripts/fetch-kit.sh
 bash /tmp/fetch-kit.sh
 ```
 
